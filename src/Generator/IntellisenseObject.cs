@@ -9,6 +9,7 @@ namespace TypeScriptDefinitionGenerator
         public string Name { get; set; }
         public string BaseNamespace { get; set; }
         public string BaseName { get; set; }
+        public string BaseFullName { get; set; }        
         public string FullName { get; set; }
         public bool IsEnum { get; set; }
         public string Summary { get; set; }

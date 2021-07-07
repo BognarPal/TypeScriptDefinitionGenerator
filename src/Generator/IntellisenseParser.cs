@@ -174,6 +174,7 @@ namespace TypeScriptDefinitionGenerator
                 Name = className,
                 BaseNamespace = baseNs,
                 BaseName = baseClassName,
+                BaseFullName = baseClass.ProjectItem.Document.FullName,
                 FullName = cc.FullName,
                 Summary = GetSummary(cc)
             };

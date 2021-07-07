@@ -31,7 +31,19 @@ namespace TypeScriptDefinitionGenerator
                         Uri targetUri = new Uri(System.IO.Path.Combine(sourceDirectory, System.IO.Path.GetFileName(reference)));
                         string relativePath = "./" + targetUri.MakeRelativeUri(sourceUri).ToString().Replace('\\', '/') + System.IO.Path.GetFileNameWithoutExtension(reference);
                         string refClassName = "{ " + Utility.CamelCaseClassName(System.IO.Path.GetFileNameWithoutExtension(reference)) + " }";
-                        sb.AppendLine($"import {refClassName} from '{relativePath}'");
+                        string line = $"import {refClassName} from '{relativePath}'";
+                        if (!sb.ToString().Contains(line))
+                            sb.AppendLine(line);
+                    }
+                    if (!string.IsNullOrEmpty(io.BaseName))
+                    {
+                        Uri sourceUri = new Uri(io.BaseFullName);
+                        Uri targetUri = new Uri(System.IO.Path.Combine(sourceDirectory, System.IO.Path.GetFileName(io.BaseFullName)));
+                        string relativePath = "./" + targetUri.MakeRelativeUri(sourceUri).ToString().Replace('\\', '/') + System.IO.Path.GetFileNameWithoutExtension(io.BaseFullName);
+                        string baseClassName = "{ " + Utility.CamelCaseClassName(System.IO.Path.GetFileNameWithoutExtension(io.BaseFullName)) + " }";
+                        string line = $"import {baseClassName} from '{relativePath}'";
+                        if (!sb.ToString().Contains(line))
+                            sb.AppendLine(line);
                     }
                 }
                 
