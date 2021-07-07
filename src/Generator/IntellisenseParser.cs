@@ -149,6 +149,7 @@ namespace TypeScriptDefinitionGenerator
         {
             string baseNs = null;
             string baseClassName = null;
+            string baseClassFullName = null;
             var ns = GetNamespace(cc);
             var className = GetClassName(cc);
             var references = new HashSet<string>();
@@ -166,6 +167,7 @@ namespace TypeScriptDefinitionGenerator
             {
                 baseClassName = GetClassName(baseClass);
                 baseNs = GetNamespace(baseClass);
+                baseClassFullName = baseClass.ProjectItem.Document.FullName;
             }
 
             var intellisenseObject = new IntellisenseObject(properties.ToList(), references)
@@ -174,7 +176,7 @@ namespace TypeScriptDefinitionGenerator
                 Name = className,
                 BaseNamespace = baseNs,
                 BaseName = baseClassName,
-                BaseFullName = baseClass.ProjectItem.Document.FullName,
+                BaseFullName = baseClassFullName,
                 FullName = cc.FullName,
                 Summary = GetSummary(cc)
             };
@@ -324,8 +326,8 @@ namespace TypeScriptDefinitionGenerator
                         effectiveTypeRef.TypeKind == vsCMTypeRef.vsCMTypeRefCodeType &&
                         effectiveTypeRef.CodeType.InfoLocation == vsCMInfoLocation.vsCMInfoLocationProject
                         ?
-                            (codeClass != null && HasIntellisense(codeClass.ProjectItem, references) ? (/*GetNamespace(codeClass) + "." +*/ Utility.CamelCaseClassName(GetClassName(codeClass))) : null) ??
-                            (codeEnum != null && HasIntellisense(codeEnum.ProjectItem, references) ? (/*GetNamespace(codeEnum) + "." +*/ Utility.CamelCaseClassName(codeEnum.Name)) : null)
+                            (codeClass != null && HasIntellisense(codeClass.ProjectItem, references) ? (/*GetNamespace(codeClass) + "." +*/ GetClassName(codeClass)) : null) ??
+                            (codeEnum != null && HasIntellisense(codeEnum.ProjectItem, references) ? (/*GetNamespace(codeEnum) + "." +*/ codeEnum.Name) : null)
                         : null
                 };
 

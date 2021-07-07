@@ -30,7 +30,7 @@ namespace TypeScriptDefinitionGenerator
                         Uri sourceUri = new Uri(reference);
                         Uri targetUri = new Uri(System.IO.Path.Combine(sourceDirectory, System.IO.Path.GetFileName(reference)));
                         string relativePath = "./" + targetUri.MakeRelativeUri(sourceUri).ToString().Replace('\\', '/') + System.IO.Path.GetFileNameWithoutExtension(reference);
-                        string refClassName = "{ " + Utility.CamelCaseClassName(System.IO.Path.GetFileNameWithoutExtension(reference)) + " }";
+                        string refClassName = "{ " + System.IO.Path.GetFileNameWithoutExtension(reference) + " }";
                         string line = $"import {refClassName} from '{relativePath}'";
                         if (!sb.ToString().Contains(line))
                             sb.AppendLine(line);
@@ -40,7 +40,7 @@ namespace TypeScriptDefinitionGenerator
                         Uri sourceUri = new Uri(io.BaseFullName);
                         Uri targetUri = new Uri(System.IO.Path.Combine(sourceDirectory, System.IO.Path.GetFileName(io.BaseFullName)));
                         string relativePath = "./" + targetUri.MakeRelativeUri(sourceUri).ToString().Replace('\\', '/') + System.IO.Path.GetFileNameWithoutExtension(io.BaseFullName);
-                        string baseClassName = "{ " + Utility.CamelCaseClassName(System.IO.Path.GetFileNameWithoutExtension(io.BaseFullName)) + " }";
+                        string baseClassName = "{ " + System.IO.Path.GetFileNameWithoutExtension(io.BaseFullName) + " }";
                         string line = $"import {baseClassName} from '{relativePath}'";
                         if (!sb.ToString().Contains(line))
                             sb.AppendLine(line);
@@ -87,7 +87,7 @@ namespace TypeScriptDefinitionGenerator
                     else
                     {
                         var type = Options.ClassInsteadOfInterface ? "\tclass " : "\tinterface ";
-                        sb.Append($"export {type}").Append(Utility.CamelCaseClassName(io.Name)).Append(" ");
+                        sb.Append($"export {type}").Append(io.Name).Append(" ");
 
                         if (!string.IsNullOrEmpty(io.BaseName))
                         {
@@ -98,7 +98,7 @@ namespace TypeScriptDefinitionGenerator
                                 sb.Append(io.BaseNamespace).Append(".");
                             }
 
-                            sb.Append(Utility.CamelCaseClassName(io.BaseName)).Append(" ");
+                            sb.Append(io.BaseName).Append(" ");
                         }
 
                         WriteTSInterfaceDefinition(sb, "\t", io.Properties);
